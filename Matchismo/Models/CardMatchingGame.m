@@ -42,7 +42,7 @@
                   card.unplayable = YES;
                   otherCard.unplayable = YES;
                   self.score += matchScore * MATCH_BONUS;
-                  self.lastFlipResult = [NSString stringWithFormat:@"Matched %@ & %@ for %d points.", card.contents, otherCard.contents, matchScore * MATCH_BONUS];
+                  self.lastFlipResult = [NSString stringWithFormat:@"Matched %@ & %@ for %d points", card.contents, otherCard.contents, matchScore * MATCH_BONUS];
                   pertainLastResult = YES;
                } else {
                   otherCard.faceUp = NO;
@@ -57,7 +57,7 @@
          self.score -= FLIP_COST;
          //         self.lastFlipResult = [NSString stringWithFormat:@"Flipping card face up costed %d points.", FLIP_COST];
          if (!pertainLastResult)
-            self.lastFlipResult = [NSString stringWithFormat:@"Fliped up %@.", card.contents];
+            self.lastFlipResult = [NSString stringWithFormat:@"Fliped up %@", card.contents];
       }
       card.faceUp = !card.isFaceUp;
    }
