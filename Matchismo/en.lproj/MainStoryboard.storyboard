@@ -271,11 +271,11 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="6♦ and J♣ don’t match! 2 point penalty!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDc-D3-zp5">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDc-D3-zp5">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="cjj-Vl-4Hf"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -388,6 +388,7 @@
                     <connections>
                         <outlet property="labelNumberOfFlips" destination="mC1-gv-UPn" id="ePv-Iv-3gJ"/>
                         <outlet property="scoreLabel" destination="gY6-ts-959" id="Krg-yu-QwS"/>
+                        <outlet property="statusLabel" destination="lDc-D3-zp5" id="gUz-zv-RHz"/>
                         <outletCollection property="cardButtons" destination="fkB-fK-ELw" id="6cK-Fz-cE2"/>
                         <outletCollection property="cardButtons" destination="TqL-n1-Vfo" id="kUz-aL-RDG"/>
                         <outletCollection property="cardButtons" destination="8IM-VT-Tsv" id="Fhz-mh-j6e"/>
@@ -418,6 +419,7 @@
                 <relationship kind="action" name="flipIt:" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="labelNumberOfFlips" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
                 <relationship kind="outletCollection" name="cardButtons" candidateClass="UIButton"/>
             </relationships>
         </class>
