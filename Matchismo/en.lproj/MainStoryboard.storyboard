@@ -291,6 +291,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="newGame:" destination="2" eventType="touchUpInside" id="cES-Dy-Vjc"/>
+                                </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9J2-h9-kwU">
                                 <segments>
@@ -386,6 +389,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="gamePlayModeControl" destination="9J2-h9-kwU" id="7SN-aL-aKw"/>
                         <outlet property="labelNumberOfFlips" destination="mC1-gv-UPn" id="ePv-Iv-3gJ"/>
                         <outlet property="scoreLabel" destination="gY6-ts-959" id="Krg-yu-QwS"/>
                         <outlet property="statusLabel" destination="lDc-D3-zp5" id="gUz-zv-RHz"/>
@@ -417,6 +421,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CardGameViewController.h"/>
             <relationships>
                 <relationship kind="action" name="flipIt:" candidateClass="UIButton"/>
+                <relationship kind="action" name="newGame:" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gamePlayModeControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="labelNumberOfFlips" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="scoreLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>

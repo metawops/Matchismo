@@ -17,6 +17,7 @@
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *gamePlayModeControl;
 @end
 
 
@@ -59,9 +60,21 @@
 
 - (IBAction)flipIt:(UIButton *)sender
 {
+   self.gamePlayModeControl.enabled = FALSE; // necessary only for the first flip in a fresh game though ...
    [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];
    self.numberOfFlips++;
    [self updateUI];
 }
+
+
+- (IBAction)newGame:(UIButton *)sender
+{
+   [self setGame:[[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+                                                   usingDeck:[[PlayingCardDeck alloc] init]]];
+   self.numberOfFlips = 0;
+   self.gamePlayModeControl.enabled = YES;
+   [self updateUI];
+}
+
 
 @end
