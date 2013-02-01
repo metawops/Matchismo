@@ -60,7 +60,10 @@
 
 - (IBAction)flipIt:(UIButton *)sender
 {
-   self.gamePlayModeControl.enabled = FALSE; // necessary only for the first flip in a fresh game though ...
+   // if a new game just started (score==0) disable the 2-match/3-match switch
+   if (self.numberOfFlips == 0)
+      self.gamePlayModeControl.enabled = FALSE;
+   
    [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];
    self.numberOfFlips++;
    [self updateUI];
@@ -77,4 +80,8 @@
 }
 
 
+- (IBAction)matchModeTapped:(UISegmentedControl *)sender
+{
+   [self.game setThreeCardMatchMode:[sender selectedSegmentIndex]==0 ? NO : YES];
+}
 @end

@@ -16,12 +16,29 @@
 {
    int score = 0;
    if ([otherCards count] == 1) {
+      // matching two cards
       PlayingCard *otherCard = [otherCards lastObject];
       if ([otherCard.suit isEqualToString:self.suit]) {
          score = 1;
       }
       else if (otherCard.rank == self.rank) {
          score = 4;
+      }
+   }
+   else if ([otherCards count] == 2) {
+      // matching three cards
+      PlayingCard *secondCard = [otherCards objectAtIndex:0];
+      PlayingCard *thirdCard = [otherCards objectAtIndex:1];
+      // two ways of matching:
+      //  either all three ranks are equal
+      //  or all three suits are equal
+      // exploiting the trasitivity of the equals relation here
+      // ( if a=b and b=c then a=c, this all three are equal )
+      if (([self.suit isEqualToString:secondCard.suit]) && ([secondCard.suit isEqualToString:thirdCard.suit])) {
+         score = 6;
+      }
+      else if ((self.rank == secondCard.rank) && (secondCard.rank == thirdCard.rank)) {
+         score = 15;
       }
    }
    return score;

@@ -34,31 +34,74 @@
    BOOL pertainLastResult = NO;
    
    if (card && !card.isUnplayable) {
-      if (!card.isFaceUp) {
+      if (!card.isFaceUp) {    // eine verdeckte Karte wurde angetippt
+         
          for (Card *otherCard in self.cards) {
             if (otherCard.isFaceUp && !otherCard.isUnplayable) {
+               // we found another card that is faceup and still in the game
+
                int matchScore = [card match:@[otherCard]];
                if (matchScore) {
-                  card.unplayable = YES;
-                  otherCard.unplayable = YES;
-                  self.score += matchScore * MATCH_BONUS;
-                  self.lastFlipResult = [NSString stringWithFormat:@"Matched %@ & %@ for %d points", card.contents, otherCard.contents, matchScore * MATCH_BONUS];
+                  // there's some kind of match between these two cards
+                  // no check for a possible matching 3rd card if we're in a 3-match-game
+                  if (self.isThreeCardMatchMode) {
+                     for (Card *thirdCard in self.cards) {
+                        if (thirdCard.isFaceUp && !thirdCard.isUnplayable && !([otherCard.contents isEqualToString:thirdCard.contents])) {
+                           // we have a candidate (faceup & still in the game & not == the 2nd card)
+                           // now check the match score for all three cards
+                           int matchThreeScore = [card match:@[otherCard, thirdCard]];
+                           if (matchThreeScore) {
+                              // yay! all three cards match (in rank or suit)
+                              card.unplayable = YES;
+                              otherCard.unplayable = YES;
+                              thirdCard.unplayable = YES;
+                              self.score += matchThreeScore * MATCH_BONUS;
+                              self.lastFlipResult = [NSString stringWithFormat:@"Matched %@, %@ & %@ for %d points", card.contents, otherCard.contents, thirdCard.contents, matchThreeScore * MATCH_BONUS];
+                              pertainLastResult = YES;
+                           }
+                           else {
+                              // no three-card-match
+                              otherCard.faceUp = NO;
+                              thirdCard.faceUp = NO;
+                              self.score -= MISMATCH_PENALTY;
+                              self.lastFlipResult = [NSString stringWithFormat:@"%@, %@ & %@ don't match! %d point penalty!", card.contents, otherCard.contents, thirdCard.contents, MISMATCH_PENALTY];
+                              pertainLastResult = YES;                              
+                           }
+                           break;
+                        }
+                     }
+                  }
+                  else {
+                     // we are in a 2-match-game, the 2 cards matched
+                     card.unplayable = YES;
+                     otherCard.unplayable = YES;
+                     self.score += matchScore * MATCH_BONUS;
+                     self.lastFlipResult = [NSString stringWithFormat:@"Matched %@ & %@ for %d points", card.contents, otherCard.contents, matchScore * MATCH_BONUS];
+                  }
                   pertainLastResult = YES;
                } else {
-                  otherCard.faceUp = NO;
+                  // otherCard.faceUp = NO;
+                  for (Card *aCard in self.cards)
+                     if (![aCard.contents isEqualToString:card.contents] && !aCard.isUnplayable)
+                        aCard.faceUp = NO;
                   self.score -= MISMATCH_PENALTY;
                   self.lastFlipResult = [NSString stringWithFormat:@"%@ and %@ don't match! %d point penalty!", card.contents, otherCard.contents, MISMATCH_PENALTY];
                   pertainLastResult = YES;
                }
                break;
+
             }
             self.lastFlipResult = nil;
          }
          self.score -= FLIP_COST;
-         //         self.lastFlipResult = [NSString stringWithFormat:@"Flipping card face up costed %d points.", FLIP_COST];
          if (!pertainLastResult)
             self.lastFlipResult = [NSString stringWithFormat:@"Fliped up %@", card.contents];
       }
+      // Falls eine umgedrehte ("FaceUp") Karte angetippt wurde,
+      // wird sie einfach wieder umgedreht, so dass sie dann "FaceDown" ist.
+      // Anderenfalls (es wurde eine "FaceDown" Karte angetippt und der
+      // gesamte obige if-Block durchlaufen) wird sie hierdurch auch noch
+      // auf "FaceUp" umgeswitcht.
       card.faceUp = !card.isFaceUp;
    }
 }
@@ -86,6 +129,7 @@
             break;
          }
       }
+      self.threeCardMatchMode = FALSE;
    }
    
    return self;

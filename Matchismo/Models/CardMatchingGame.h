@@ -20,6 +20,6 @@
 
 @property (readonly, nonatomic) int score;
 @property (readonly, strong, nonatomic) NSString *lastFlipResult;
-
+@property (nonatomic, getter = isThreeCardMatchMode) BOOL threeCardMatchMode;
 
 @end
